@@ -18,10 +18,7 @@ describe('Test routes and endpoints', () => {
   });
 
   it('gets the /api/categories endpoint', async () => {
-    const response = await request(app).get(
-      '/api/categories/',
-    );
+    const response = await request(app).get('/api/categories/');
     expect(response.text).toContain('no such file or directory');
   });
-
 });

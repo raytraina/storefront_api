@@ -2,7 +2,7 @@ import { UserQueries } from '../models/user';
 
 const queries = new UserQueries();
 
-describe("User Model Tests", () => {
+describe('User Model Tests', () => {
   it('should have an index method', () => {
     expect(queries.index).toBeDefined();
   });
