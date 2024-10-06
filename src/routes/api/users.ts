@@ -7,14 +7,9 @@ users.get('/', (req, res) => {
     res.send("Users main route");
 })
 
-// Individual User
+// User by ID
 users.get('/:id', (req, res) => {
     res.send("User route for specific id");
-})
-
-// Create new user GET
-users.get('/register', (req, res) => {
-    res.send("User registration form");
 })
 
 // Create new user POST
@@ -32,7 +27,7 @@ users.get('/:id/orders?status=complete', (req, res) => {
     res.send("All completed user orders");
 })
 
-// Create new order for current user
+// Create new order for current user POST
 users.post('/submit-order', (req, res) => {
     res.send("Create new order");
 })

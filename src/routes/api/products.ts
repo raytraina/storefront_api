@@ -1,15 +1,23 @@
-import express from 'express';
-
+import express, { Request, Response} from 'express';
+import { ProductQueries } from '../../models/product';
+// Product, 
 const products = express.Router();
 
 // All products
-products.get('/', (req, res) => {
-    res.send("Products main route");
+products.get('/', async (req: Request, res: Response) => {
+    // res.json({'hi':'world'});
+    const productQueries = new ProductQueries();
+    const products = await productQueries.index();
+    // const products = await ProductQueries.index();
+    res.json(products);
 })
 
-// Individual product
-products.get('/:id', (req, res) => {
-    res.send("Products route for specific id");
+// Product by ID
+products.get('/:id', async (req: Request, res: Response) => {
+    const productQueries = new ProductQueries();
+    const product = await productQueries.show(req.params.id);
+    res.json(product);
+    // res.send(`Products route for specific id: ${req.params.id}`);
 })
 
 // 5 Top Popular Products
@@ -21,5 +29,8 @@ products.get('/popular', (req, res) => {
 products.get('/category/:id', (req, res) => {
     res.send("Products route for specific category");
 })
+
+// Create new product POST
+// products.post('/')
 
 export default products;
