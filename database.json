@@ -3,5 +3,10 @@
       "driver": "pg",
       "host": "127.0.0.1",
       "database": "storefront"
-    }
+    },
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "database": "storefront_test"
+  }
   }

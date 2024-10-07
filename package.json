@@ -2,9 +2,9 @@
   "name": "storefront_api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.ts",
+    "start": "ENV=dev && nodemon src/server.ts",
     "jasmine": "jasmine",
     "build": "npx tsc",
     "test": "createdb storefront_test && ENV=test && npm run build && db-migrate --env test up && npm run jasmine && dropdb storefront_test",

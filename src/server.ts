@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express';
-// import routes from './routes/index';
+import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import routeHandlers from './handlers';
+
+dotenv.config();
 
 export const app: express.Application = express();
 const address: string = '0.0.0.0:3000';

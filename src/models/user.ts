@@ -1,6 +1,11 @@
 import bcrypt from 'bcrypt';
 import client from '../database';
 
+const {
+  SALT_ROUNDS,
+  PEPPER
+} = process.env;
+
 export type User = {
   id: number;
   firstName: string;
@@ -43,8 +48,8 @@ export class UserQueries {
     isActive: boolean = true,
   ): Promise<User[]> {
     try {
-      // TODO create pw hash + pepper here
-      const hash = bcrypt.hashSync(password, 10); //10 salt rounds for test
+      const saltCount = SALT_ROUNDS as unknown;
+      const hash = bcrypt.hashSync(password+PEPPER, saltCount as number); // 10 salt rounds
       const connection = await client.connect();
       const sql =
         'INSERT INTO users (firstName, lastName, email, password, isActive) VALUES ($1, $2, $3, $4, $5)';
@@ -71,7 +76,7 @@ export class UserQueries {
       const result = await connection.query(sql, [email]);
       if (result.rows.length) {
         const user = result.rows[0];
-        if (bcrypt.compareSync(password, user.password)) {
+        if (bcrypt.compareSync(password+PEPPER, user.password)) {
           return user;
         } else {
           return null;
