@@ -9,7 +9,7 @@ export type Product = {
 };
 
 export class ProductQueries {
-  public async index():Promise<Product[]> {
+  async index():Promise<Product[]> {
     try {
       const connection = await client.connect();
       const sql = 'SELECT * FROM products';
@@ -21,7 +21,7 @@ export class ProductQueries {
     }
   }
 
-  public async show(id: string):Promise<Product[]> {
+  async show(id: string):Promise<Product[]> {
     try {
       const connection = await client.connect();
       const sql = 'SELECT * FROM products WHERE id=($1)';
@@ -33,7 +33,7 @@ export class ProductQueries {
     }
   }
 
-  public async create(
+  async create(
     name: string,
     price: number,
     description: string,
@@ -49,29 +49,15 @@ export class ProductQueries {
         description,
         categoryId,
       ]);
-      const newUser = result.rows[0];
+      const newProduct = result.rows[0];
       connection.release();
-      return newUser;
+      return newProduct;
     } catch (error) {
       throw new Error(`${error}`);
     }
   }
 
-  public async show_popular() {
-    try {
-      return 'pass';
-      //   TODO group productorders by product id  get count return highest 5 count
-      // const connection = await client.connect();
-      // const sql = 'SELECT * FROM products WHERE id=($1)';
-      // const result = await connection.query(sql,[id]);
-      // connection.release();
-      // return result.rows[0];
-    } catch (error) {
-      throw new Error(`${error}`);
-    }
-  }
-
-  public async show_by_category(categoryId: string) {
+  async showByCategory(categoryId: string) {
     try {
       const connection = await client.connect();
       const sql = 'SELECT * FROM products WHERE categoryId=($1)';

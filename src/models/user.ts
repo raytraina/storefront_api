@@ -14,7 +14,7 @@ export class UserQueries {
   async index(): Promise<User[]> {
     try {
       const connection = await client.connect();
-      const sql = 'SELECT * FROM users';
+      const sql = 'SELECT firstName, lastName, email FROM users';
       const result = await connection.query(sql);
       connection.release();
       return result.rows;
@@ -26,7 +26,7 @@ export class UserQueries {
   async show(id: string): Promise<User[]> {
     try {
       const connection = await client.connect();
-      const sql = 'SELECT * FROM users WHERE id=($1)';
+      const sql = 'SELECT firstName, lastName, email FROM users WHERE id=($1)';
       const result = await connection.query(sql, [id]);
       connection.release();
       return result.rows[0];
@@ -55,7 +55,7 @@ export class UserQueries {
         hash,
         isActive,
       ]);
-      console.log(result);
+      console.log(result.rows);
       connection.release();
       const authenticatedUser = this.authenticate(email, password);
       return authenticatedUser;
@@ -64,14 +64,13 @@ export class UserQueries {
     }
   }
 
-  async authenticate(email:string, password:string ) {
+  async authenticate(email:string, password:string) {
     try {    
       const connection = await client.connect();
       const sql = 'SELECT * FROM users WHERE email=($1)';
       const result = await connection.query(sql, [email]);
       if(result.rows.length) {
         const user = result.rows[0];
-        console.log(user);
         if (bcrypt.compareSync(password, user.password)) {
           return user;
         } else {
