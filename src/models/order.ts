@@ -47,10 +47,11 @@ export class OrderQueries {
     }
   }
 
-  async showOpenOrdersByUser(userId:string): Promise<Order[]> {
+  async showOpenOrdersByUser(userId: string): Promise<Order[]> {
     try {
       const connection = await client.connect();
-      const sql = 'SELECT * FROM orders WHERE userId=($1) AND orderStatus="active"';
+      const sql =
+        'SELECT * FROM orders WHERE userId=($1) AND orderStatus="active"';
       const result = await connection.query(sql, [userId]);
       connection.release();
       return result.rows;
@@ -59,10 +60,11 @@ export class OrderQueries {
     }
   }
 
-  async showClosedOrdersByUser(userId:string): Promise<Order[]> {
+  async showClosedOrdersByUser(userId: string): Promise<Order[]> {
     try {
       const connection = await client.connect();
-      const sql = 'SELECT * FROM orders WHERE userId=($1) AND orderStatus="complete"';
+      const sql =
+        'SELECT * FROM orders WHERE userId=($1) AND orderStatus="complete"';
       const result = await connection.query(sql, [userId]);
       connection.release();
       return result.rows;

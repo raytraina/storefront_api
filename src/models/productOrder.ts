@@ -8,7 +8,7 @@ export type ProductOrder = {
 };
 
 export class ProductOrderQueries {
-  async indexProductOrders(orderId:number): Promise<ProductOrder[]> {
+  async indexProductOrders(orderId: number): Promise<ProductOrder[]> {
     try {
       const connection = await client.connect();
       const sql = 'SELECT * FROM productOrders WHERE orderId=($1)';

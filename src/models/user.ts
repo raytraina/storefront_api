@@ -64,12 +64,12 @@ export class UserQueries {
     }
   }
 
-  async authenticate(email:string, password:string) {
-    try {    
+  async authenticate(email: string, password: string) {
+    try {
       const connection = await client.connect();
       const sql = 'SELECT * FROM users WHERE email=($1)';
       const result = await connection.query(sql, [email]);
-      if(result.rows.length) {
+      if (result.rows.length) {
         const user = result.rows[0];
         if (bcrypt.compareSync(password, user.password)) {
           return user;

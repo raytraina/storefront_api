@@ -1,4 +1,4 @@
-import express, { Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import products from './api/products';
 import categories from './api/categories';
 import users from './api/users';
