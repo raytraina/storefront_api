@@ -7,7 +7,7 @@
     "start": "ENV=dev && nodemon src/server.ts",
     "jasmine": "jasmine",
     "build": "npx tsc",
-    "test": "createdb storefront_test && ENV=test && npm run build && db-migrate --env test up && npm run jasmine && dropdb storefront_test",
+    "test": "dropdb storefront_test && createdb storefront_test && ENV=test && npm run build && db-migrate --env test up && npm run jasmine",
     "lint": "npx eslint .",
     "prettier": "prettier --config .prettierrc src/**/*.ts --write"
   },
@@ -32,6 +32,7 @@
     "jasmine-core": "^5.3.0",
     "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
+    "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.7.0"
@@ -43,6 +44,7 @@
     "db-migrate-pg": "^1.5.2",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "jasmine-spec-reporter": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.0"
   }

@@ -5,12 +5,12 @@ import { ProductQueries } from '../../models/product';
 
 const products = express.Router();
 
+const { JWT_SECRET } = process.env;
+
 // GET All products
 products.get('/', async (req: Request, res: Response) => {
-    // res.json({'hi':'world'});
     const productQueries = new ProductQueries();
     const products = await productQueries.index();
-    // const products = await ProductQueries.index();
     res.json(products);
 })
 
@@ -19,7 +19,6 @@ products.get('/:id', async (req: Request, res: Response) => {
     const productQueries = new ProductQueries();
     const product = await productQueries.show(req.params.id);
     res.json(product);
-    // res.send(`Products route for specific id: ${req.params.id}`);
 })
 
 // TODO - GET 5 Top Popular Products
@@ -39,8 +38,7 @@ products.get('/category/:categoryId', async (req: Request, res: Response) => {
 // POST Create new product
 products.post('/new', async (req: Request, res: Response) => {
     try {
-        // TODO FIX
-        const token = jwt.verify(req.body.token, 'my_temp_token_secret');
+        const token = jwt.verify(req.body.token, JWT_SECRET as string);
         res.json(token);
     } catch(error) {
         console.log(error);

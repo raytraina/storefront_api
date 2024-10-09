@@ -1,9 +1,9 @@
 import 'jasmine';
-import { UserQueries } from '../models/user';
+import { CategoryQueries } from '../models/category';
 
-const queries = new UserQueries();
+const queries = new CategoryQueries();
 
-describe('User Model Tests', () => {
+describe('Category Model Tests', () => {
   it('should have an index method', () => {
     expect(queries.index).toBeDefined();
   });
@@ -14,9 +14,5 @@ describe('User Model Tests', () => {
 
   it('should have a create method', () => {
     expect(queries.create).toBeDefined();
-  });
-
-  it('should have an authenticate method', () => {
-    expect(queries.authenticate).toBeDefined();
   });
 });
