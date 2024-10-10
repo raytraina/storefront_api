@@ -7,7 +7,7 @@
     "start": "ENV=dev && nodemon src/server.ts",
     "jasmine": "jasmine",
     "build": "npx tsc",
-    "test": "dropdb storefront_test && createdb storefront_test && ENV=test && npm run build && db-migrate --env test up && npm run jasmine",
+    "test": "createdb storefront_test && ENV=test && npm run build && db-migrate --env test up && npm run jasmine",
     "lint": "npx eslint .",
     "prettier": "prettier --config .prettierrc src/**/*.ts --write"
   },

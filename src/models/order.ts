@@ -51,7 +51,7 @@ export class OrderQueries {
     try {
       const connection = await client.connect();
       const sql =
-        'SELECT * FROM orders WHERE userId=($1) AND orderStatus="active"';
+        "SELECT * FROM orders WHERE userId=($1) AND orderStatus='active'";
       const result = await connection.query(sql, [userId]);
       connection.release();
       return result.rows;
@@ -64,7 +64,7 @@ export class OrderQueries {
     try {
       const connection = await client.connect();
       const sql =
-        'SELECT * FROM orders WHERE userId=($1) AND orderStatus="complete"';
+        "SELECT * FROM orders WHERE userId=($1) AND orderStatus='complete'";
       const result = await connection.query(sql, [userId]);
       connection.release();
       return result.rows;

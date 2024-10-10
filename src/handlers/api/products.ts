@@ -38,15 +38,14 @@ products.get('/category/:categoryId', async (req: Request, res: Response) => {
 // POST Create new product
 products.post('/new', async (req: Request, res: Response) => {
     try {
-        const token = jwt.verify(req.body.token, JWT_SECRET as string);
-        res.json(token);
+        jwt.verify(req.body.token, JWT_SECRET as string);
     } catch(error) {
         console.log(error);
         throw new Error('There was an issue verifying the token.');
     }
     const productQueries = new ProductQueries();
-    const newProduct = await productQueries.create(req.body.name as string, req.body.price as number, req.body.description as string, req.body.categoryId as string);
-    res.json(newProduct);
+    await productQueries.create(req.body.name as string, req.body.price as number, req.body.description as string, req.body.categoryId as string);
+    res.send('Success');
 })
 
 export default products;

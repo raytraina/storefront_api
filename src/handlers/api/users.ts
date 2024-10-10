@@ -44,42 +44,35 @@ users.post('/auth', async (req: Request, res: Response) => {
         throw new Error('There was an issue verifying the token.');
     }
     const userQueries = new UserQueries();
-    const newUser = await userQueries.authenticate(req.body.email as string, req.body.password as string);
-    res.json(newUser);
+    const authUser = await userQueries.authenticate(req.body.email as string, req.body.password as string);
+    res.json(authUser);
 })
 
-// GET Current user's open orders
-users.get('/:userId/orders?status=active', async (req: Request, res: Response) => {
+// TODO - Once order submission api created, ensure only authorized user's orders are visible
+// GET Current user's open/closed orders
+users.get('/:userId/orders', async (req: Request, res: Response) => {
     try {
-        const token = jwt.verify(req.body.token, JWT_SECRET as string);
-        res.json(token);
+        const authHeader = req.headers['authorization'] as string;
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, JWT_SECRET as string);
     } catch(error) {
         console.log(error);
         throw new Error('There was an issue verifying the token.');
     }
     const orderQueries = new OrderQueries();
-    const openOrders = await orderQueries.showOpenOrdersByUser(req.params.userId as string);
-    res.json(openOrders);
-})
-
-// GET Current user's closed orders
-users.get('/:userId/orders?status=complete', async (req: Request, res: Response) => {
-    try {
-        const token = jwt.verify(req.body.token, JWT_SECRET as string);
-        res.json(token);
-    } catch(error) {
-        console.log(error);
-        throw new Error('There was an issue verifying the token.');
+    if (req.query.status === 'active') {
+        const openOrders = await orderQueries.showOpenOrdersByUser(req.params.userId as string);
+        res.json(openOrders);
+    } else if (req.query.status === 'complete') {
+        const closedOrders = await orderQueries.showClosedOrdersByUser(req.params.userId as string);
+        res.json(closedOrders);
     }
-    const orderQueries = new OrderQueries();
-    const closedOrders = await orderQueries.showClosedOrdersByUser(req.params.userId as string);
-    res.json(closedOrders);
 })
 
 /*
 // TODO - Next Steps
 
-// Create new order for current user POST
+// POST Create new order for current authorized user
 users.post('/submit-order', (req, res) => {
     res.send("Create new order");
 })
