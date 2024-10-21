@@ -7,19 +7,37 @@ const users = express.Router();
 
 const { JWT_SECRET } = process.env;
 
-// TODO for Admin - GET All users
-// users.get('/', async (req: Request, res: Response) => {
-//     const userQueries = new UserQueries();
-//     const users = await userQueries.index();
-//     res.json(users);
-// })
+// TODO for Admin only
+// GET All users
+users.get('/', async (req: Request, res: Response) => {
+    try {
+        const authHeader = req.headers['authorization'] as string;
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, JWT_SECRET as string);
+    } catch(error) {
+        console.log(error);
+        throw new Error('There was an issue verifying the token.');
+    }
+    const userQueries = new UserQueries();
+    const allUsers = await userQueries.index();
+    res.json(allUsers);
+})
 
-// TODO for Logged In User - GET User by ID
-// users.get('/:id', async (req: Request, res: Response) => {
-//     const userQueries = new UserQueries();
-//     const user = await userQueries.show(req.params.id);
-//     res.json(user);
-// })
+// TODO for Logged In User only
+// GET User by ID
+users.get('/:userId', async (req: Request, res: Response) => {
+    try {
+        const authHeader = req.headers['authorization'] as string;
+        const token = authHeader.split(' ')[1];
+        jwt.verify(token, JWT_SECRET as string);
+    } catch(error) {
+        console.log(error);
+        throw new Error('There was an issue verifying the token.');
+    }
+    const userQueries = new UserQueries();
+    const user = await userQueries.show(req.params.userId);
+    res.json(user);
+})
 
 // POST Create new user
 users.post('/new', async (req: Request, res: Response) => {
