@@ -8,6 +8,8 @@ Note: A build script has been included for future deployment, though it is not c
 
 ## Setup and Installation
 
+### First
+
 To get this project started on your local machine, first clone this repository into the directory of your choice:
 
 ``` bash
@@ -26,11 +28,46 @@ Next, navigate to the cloned directory and install the requirements (aka depende
 $ npm install
 ```
 
+### Second
+
+**Environment Variables [UPDATED]**
+
+You will need to create a `.env` file in the root of the project with the below environment variables. Create a file using:
+
+```bash
+$ touch .env
+```
+
+Then open the file, copy the below, and paste into the new .env file:
+
+``` txt
+PG_HOST='127.0.0.1'
+PG_DB_URI='storefront'
+PG_TEST_DB_URI='storefront_test'
+PG_USER='storefront_admin'
+PG_PASSWORD='placeholder'
+ENV='dev'
+JWT_SECRET='mysecret1234'
+BCRYPT_PASSWORD='myextrasecret5678'
+SALT_ROUNDS=10
+PEPPER='theextrasecretpepperboom'
+```
+
+These variables are read into the project using the `dotenv` package that was installed in the previous step.
+
+In a real-world scenario, these environment variables would be strictly secret and not exposed in a public respository, hence the sillier conventions user here.
+
+Note: This project _does not use the PG_USER or PG_PASSWORD variables_ and instead uses your default postgres user details.
+
+### Third
+
 (Optional) Once packages have finished being installed, you may need to globally install the db-migrate commands using:
 
 ``` bash
 $ npm install -g db-migrate
 ```
+
+### Fourth
 
 Next, run the database migrations to both create tables and seed the database with some initial test data:
 
@@ -50,7 +87,7 @@ By default, the Express API will run on localhost's port `3000`, but if you need
 
 ## API Guideline
 
-All API endpoints are specified in the `REQUUIREMENTS.md` file located in the root of this directory.
+All API endpoints are specified in the `REQUIREMENTS.md` file located in the root of this directory.
 
 ## Local Development & Testing
 
