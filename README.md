@@ -8,7 +8,7 @@ Note: A build script has been included for future deployment, though it is not c
 
 ## Setup and Installation
 
-### First
+### First - Cloning and Navigating to directory
 
 To get this project started on your local machine, first clone this repository into the directory of your choice:
 
@@ -16,21 +16,48 @@ To get this project started on your local machine, first clone this repository i
 $ git clone <GITHUB_URI>
 ```
 
-Then, create a PostgreSQL database called `storefront`. This project does not use Docker but you can create/run your database wherever you'd like:
+And `cd` into the root of the project like:
+
+``` bash
+$ cd storefront_api
+```
+
+### Second - Setting up the databases
+
+Then, create 2 PostgreSQL databases called `storefront` and `storefront_test` respectively. (This project does not use Docker but you can create/run your database wherever you'd like):
 
 ``` bash
 $ createdb storefront
+$ createdb storefront_test
 ```
 
-Next, navigate to the cloned directory and install the requirements (aka dependencies) using _Node Package Manager_:
+Next, you will create the `storefront_admin` user account and grant it the privileges needed to make changes to the databases. Note that you will need to do this inside of postgres and will see your prompt change:
+
+``` bash
+$ psql
+[psql (Version.XX) will display]
+
+<pg prompt> =# CREATE USER storefront_admin WITH PASSWORD 'placeholder' SUPERUSER;
+[create confirmation will display]
+
+<pg prompt> =# GRANT ALL PRIVILEGES ON DATABASE storefront TO storefront_admin;
+[grant confirmation will display]
+
+<pg prompt> =# GRANT ALL PRIVILEGES ON DATABASE storefront_test TO storefront_admin;
+[grant confirmation will display]
+```
+
+You can use `CTRL`+`D` to exit postgres interactive mode and get back to the terminal.
+
+### Third - Installing packages and adding environment dependencies
+
+Next, from inside of the cloned directory, you will install the requirements (aka dependencies) using _Node Package Manager_:
 
 ``` bash
 $ npm install
 ```
 
-### Second
-
-**Environment Variables [UPDATED]**
+#### **Environment Variables [UPDATED]**
 
 You will need to create a `.env` file in the root of the project with the below environment variables. Create a file using:
 
@@ -38,7 +65,7 @@ You will need to create a `.env` file in the root of the project with the below 
 $ touch .env
 ```
 
-Then open the file, copy the below, and paste into the new .env file:
+Then open the file, copy the below, and paste into the new `.env` file:
 
 ``` txt
 PG_HOST='127.0.0.1'
@@ -59,7 +86,7 @@ In a real-world scenario, these environment variables would be strictly secret a
 
 Note: This project _does not use the PG_USER or PG_PASSWORD variables_ and instead uses your default postgres user details.
 
-### Third
+### Fourth - Optional db-migrate installation
 
 (Optional) Once packages have finished being installed, you may need to globally install the db-migrate commands using:
 
@@ -67,13 +94,15 @@ Note: This project _does not use the PG_USER or PG_PASSWORD variables_ and inste
 $ npm install -g db-migrate
 ```
 
-### Fourth
+### Fifth - Run migrations and seed database
 
 Next, run the database migrations to both create tables and seed the database with some initial test data:
 
 ``` bash
 $ db-migrate up
 ```
+
+### Sixth - Run the app and play
 
 Finally, you should now be able to run the API:
 
@@ -84,6 +113,21 @@ $ npm run start
 You can now use your browser at `http://localhost:3000/api` (Postman or a similar tool can be used) to make requests to the API endpoints noted below.
 
 By default, the Express API will run on localhost's port `3000`, but if you need to change the configuration, you can do so in the `src/server.js` file.
+
+### Clean Up - To wipe your environment after working with this project
+
+For cleanup and to restore your local environment and privileges:
+
+``` bash
+$ dropdb storefront
+$ dropdb storefront_test
+$ psql
+[psql (Version.XX) will display]
+
+<pg prompt> =# DROP ROLE storefront_admin;
+```
+
+Use `CTRL+D` to get back to the terminal.
 
 ## API Guideline
 
@@ -108,10 +152,9 @@ Finally, a modest test suite has been included in `src/tests` and configured in 
 ``` bash
 $ npm run test
 .............................
-$ dropdb storefront_test
 ```
 
-NOTE: You will need to drop the `storefront_test` database each time that you run the test suite using the above command.
+Please take note of the _Clean Up_ section above once you have run the test suite and are finished reviewing this project locally.
 
 ## Future Work to Explore with Frontend Team
 
